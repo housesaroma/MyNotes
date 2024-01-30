@@ -69,10 +69,22 @@ class _LoginViewState extends State<LoginView> {
                   (route) => false,
                 );
               } on FirebaseAuthException catch (e) {
-                await showErrorDialog(
-                  context,
-                  'Error: ${e.code}',
-                );
+                if (e.code == 'invalid-email') {
+                  await showErrorDialog(
+                    context,
+                    'Email not found',
+                  );
+                } else if (e.code == 'invalid-credential') {
+                  await showErrorDialog(
+                    context,
+                    'Inavalid credential',
+                  );
+                } else {
+                  await showErrorDialog(
+                    context,
+                    'Error: ${e.code}',
+                  );
+                }
               } catch (e) {
                 await showErrorDialog(
                   context,
